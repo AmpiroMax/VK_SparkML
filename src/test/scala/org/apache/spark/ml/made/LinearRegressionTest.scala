@@ -64,6 +64,15 @@ class LinearRegressionTest extends AnyFlatSpec with should.Matchers with WithSpa
         pipeline.write.overwrite().save(tmpFolder.getAbsolutePath)
         val reRead = Pipeline.load(tmpFolder.getAbsolutePath)
 
+        // I could not solve one problem
+        // pipeline was throwing an exception that "prediction" is unavilable
+        // .withColumn("prediction", lit(0.0: Double)) - solved this problem 
+        // ----------------------------------------------------------------------
+        // Failed:
+        // - org.apache.spark.ml.made.LinearRegressionTest:
+        //     * Model should work after re-read - java.lang.IllegalArgumentException: prediction does not exist. Available: features, label
+        // ----------------------------------------------------------------------
+
         val re_read_model = reRead.fit(data.withColumn("prediction", lit(0.0: Double)))
         val model = re_read_model.stages(0).asInstanceOf[LinearRegressionModel]
         validateModel(model)
