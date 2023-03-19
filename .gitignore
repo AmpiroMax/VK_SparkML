@@ -1,0 +1,9 @@
+# Not code files
+*.zip
+.bloop
+.metals
+.vscode
+target
+project
+
+old_code
